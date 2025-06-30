@@ -1,0 +1,17 @@
+name: Update Local Repository
+
+on:
+  push:
+    branches:
+      - main  # Or your desired branch
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Pull latest changes
+        run: git pull
