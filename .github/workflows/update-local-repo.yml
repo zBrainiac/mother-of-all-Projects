@@ -16,5 +16,5 @@ jobs:
       - name: Pull latest changes
         run: git pull
 
-      - name: Run Sonar Scanner
-        run: bash /Users/mdaeppen/infra/sonar-scanner/bin/Mother-of-all-Projects.sh
+#      - name: Run Sonar Scanner
+#        run: bash /Users/mdaeppen/infra/sonar-scanner/bin/Mother-of-all-Projects.sh
