@@ -17,4 +17,4 @@ jobs:
         run: git pull
 
       - name: Run Sonar Scanner
-        run: ./infra/sonar-scanner/bin/Mother-of-all-Projects.sh
+        run: bash /Users/mdaeppen/infra/sonar-scanner/bin/Mother-of-all-Projects.sh
