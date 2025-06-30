@@ -11,7 +11,7 @@ jobs:
     runs-on: self-hosted
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      PROJECT_KEY_TEST: ${{ github.event.repository.name }}
+      PROJECT_KEY: ${{ github.event.repository.name }}
       SONAR_HOST: http://localhost:9000
       
     steps:
