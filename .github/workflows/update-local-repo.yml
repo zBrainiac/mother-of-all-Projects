@@ -9,6 +9,12 @@ on:
 jobs:
   update-and-scan:
     runs-on: self-hosted
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      PROJECT_KEY_TEST: mother-project-marcel
+      PROJECT_NAME: "Mother of all Projects"
+      SONAR_HOST: http://localhost:9000
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
