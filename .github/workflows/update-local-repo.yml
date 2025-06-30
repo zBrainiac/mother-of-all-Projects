@@ -1,4 +1,4 @@
-name: Update Local Repository
+name: Update Local Repository and Run Sonar Scanner
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  update:
+  update-and-scan:
     runs-on: self-hosted
     steps:
       - name: Checkout repository
@@ -15,3 +15,6 @@ jobs:
 
       - name: Pull latest changes
         run: git pull
+
+      - name: Run Sonar Scanner
+        run: ./infra/sonar-scanner/bin/Mother-of-all-Projects.sh
