@@ -16,7 +16,7 @@ jobs:
       
     steps:
       - name: Show repo name
-        run: echo "This repo is called $REPO_NAME"
+        run: echo "This repo is called $PROJECT_KEY"
         
       - name: Checkout repository
         uses: actions/checkout@v4
