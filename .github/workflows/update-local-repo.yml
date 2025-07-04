@@ -25,4 +25,4 @@ jobs:
         run: git pull
 
       - name: Run Sonar Scanner
-        run: bash /Users/mdaeppen/infra/sonar-scanner/bin/sonar-scaner_v1.sh
+        run: bash /Users/mdaeppen/infra/sonar-scanner/sonar-scaner_v1.sh
