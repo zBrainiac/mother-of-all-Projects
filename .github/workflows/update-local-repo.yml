@@ -26,7 +26,8 @@ jobs:
         run: git pull
 
       - name: Run Sonar Scanner
-        run: bash /Users/mdaeppen/infra/sonar-scanner/sonar-scaner_v1.sh
+        run: bash /Users/mdaeppen/workspace/Mother-of-all-Projects/local-github-process/sonar-scaner_v1.sh
+        # run: bash /Users/mdaeppen/infra/sonar-scanner/sonar-scaner_v1.sh
 
       - name: Wait for Quality Gate to complete
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
