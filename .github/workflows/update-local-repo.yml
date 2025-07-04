@@ -14,7 +14,7 @@ jobs:
       PROJECT_KEY: ${{ github.event.repository.name }}
       SONAR_BRANCH_NAME: ${{ github.ref_name }}
       SONAR_HOST: http://localhost:9000
-      
+
     steps:
       - name: Show repo name
         run: echo "This repo is called $PROJECT_KEY"
@@ -27,7 +27,6 @@ jobs:
 
       - name: Run Sonar Scanner
         run: bash /Users/mdaeppen/workspace/Mother-of-all-Projects/local-github-process/sonar-scanner_v1.sh
-        # run: bash /Users/mdaeppen/infra/sonar-scanner/sonar-scaner_v1.sh
 
       - name: Wait for Quality Gate to complete
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
@@ -35,3 +34,16 @@ jobs:
           scanMetadataReportFile: '.scannerwork/report-task.txt'
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Zip source files
+        run: |
+          zip -r release.zip . -x '*.git*' '*.scannerwork*'
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ github.run_number }}
+          tag_name: v${{ github.run_number }}
+          files: release.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
