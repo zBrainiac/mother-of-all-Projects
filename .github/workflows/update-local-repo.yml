@@ -3,7 +3,7 @@ name: Update Local Repository and Run Sonar Scanner
 on:
   push:
     branches:
-      - main  # Or your desired branch
+      - main
   workflow_dispatch:
 
 jobs:
@@ -12,12 +12,13 @@ jobs:
     env:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       PROJECT_KEY: ${{ github.event.repository.name }}
+      SONAR_BRANCH_NAME: ${{ github.ref_name }}
       SONAR_HOST: http://localhost:9000
       
     steps:
       - name: Show repo name
         run: echo "This repo is called $PROJECT_KEY"
-        
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -25,4 +26,12 @@ jobs:
         run: git pull
 
       - name: Run Sonar Scanner
-        run: bash /Users/mdaeppen/infra/sonar-scanner/bin/Mother-of-all-Projects.sh
+        run: bash /Users/mdaeppen/workspace/Mother-of-all-Projects/local-github-process/sonar-scaner_v1.sh
+        # run: bash /Users/mdaeppen/infra/sonar-scanner/sonar-scaner_v1.sh
+
+      - name: Wait for Quality Gate to complete
+        uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
+        with:
+          scanMetadataReportFile: '.scannerwork/report-task.txt'
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
