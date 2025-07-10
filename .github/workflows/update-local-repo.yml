@@ -35,6 +35,15 @@ jobs:
         with:
           scanMetadataReportFile: '.scannerwork/report-task.txt'
 
+      - name: ❄️ Run Snowflake Schema Cloning
+        run: |
+          bash "$BASE_DIR/snowflake-clone-db_v1.sh \
+            --SOURCE_DATABASE=MD_TEST \
+            --SOURCE_SCHEMA=IOT_REF_20250711 \
+            --CLONE_DATABASE=MD_TEST \
+            --CLONE_SCHEMA=I0T_CLONE_1 
+            --RELEASE_NUM=${{ github.run_number }}"
+
       - name: 📦 Zip source files
         run: |
           zip -r release.zip . -x '*.git*' '*.scannerwork*'
@@ -47,10 +56,3 @@ jobs:
           files: release.zip
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: ❄️ Run Snowflake Schema Cloning
-        run: |
-          bash "$BASE_DIR/snowflake-clone-db_v1.sh \
-            --SOURCE_DATABASE=MD_TEST \
-            --SOURCE_SCHEMA=IOT_REF_20250711 \
-            --CLONE_DATABASE=MD_TEST \
-            --CLONE_SCHEMA=I0T_CLONE_1"
