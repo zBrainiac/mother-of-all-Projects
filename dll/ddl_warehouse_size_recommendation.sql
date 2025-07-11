@@ -1,5 +1,9 @@
-create or replace table warehouse_size_recommendation (bytes_scanned_lower integer, bytes_scanned_upper integer,  recommended_size varchar);
-insert into warehouse_size_recommendation values
+CREATE OR ALTER TABLE warehouse_size_recommendation
+(bytes_scanned_lower integer
+, bytes_scanned_upper integer
+,  recommended_size varchar);
+
+INSERT INTO warehouse_size_recommendation VALUES
 
  (0,            1000000000      , 'X-Small')
 ,(1000000000,   10000000000     , 'Small')
