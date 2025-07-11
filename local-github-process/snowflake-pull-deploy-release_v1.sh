@@ -43,7 +43,7 @@ echo "🔗 Connecting to Snowflake and starting the clone process..."
 echo "📋 Pull latest commit from git #_$CLONE_SCHEMA_WITH_RELEASE"
 
 # pull latest commit from git
-snowsql -c sfseeurope-demo_mdaeppen -s "$CLONE_SCHEMA_WITH_RELEASE" -q "
+snowsql -c sfseeurope-demo_ci_user -s "$CLONE_SCHEMA_WITH_RELEASE" -q "
   CREATE OR REPLACE SCHEMA $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE CLONE $SOURCE_DATABASE.$SOURCE_SCHEMA;
 "
 

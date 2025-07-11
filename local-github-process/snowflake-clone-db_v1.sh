@@ -2,13 +2,11 @@
 
 # -----------------------------------------------------------------------------
 # Usage:
-# ./snowflake-clone-db_v1.sh \
-#   --SOURCE_DATABASE=MD_TEST \
-#   --SOURCE_SCHEMA=IOT_REF_20250711 \
-#   --CLONE_DATABASE=MD_TEST \
-#   --CLONE_SCHEMA=I0T_CLONE \
-#   --RELEASE_NUM=42
+# ./snowflake-clone-db_v1.sh --SOURCE_DATABASE=MD_TEST --SOURCE_SCHEMA=IOT_REF_20250711 --CLONE_DATABASE=MD_TEST --CLONE_SCHEMA=I0T_CLONE --RELEASE_NUM=42
 # -----------------------------------------------------------------------------
+
+# --- Default values ---
+CONNECTION_NAME="sfseeurope-demo_ci_user"
 
 # Parse named parameters
 for ARG in "$@"; do
@@ -49,7 +47,7 @@ echo "🔗 Connecting to Snowflake and starting the clone process..."
 echo "📋 Cloning $SOURCE_DATABASE.$SOURCE_SCHEMA → $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE"
 
 
-snowsql -c sfseeurope-demo_mdaeppen -q "
+snowsql -c $CONNECTION_NAME -q "
   CREATE OR REPLACE SCHEMA $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE CLONE $SOURCE_DATABASE.$SOURCE_SCHEMA;
 "
 

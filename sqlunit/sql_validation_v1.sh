@@ -9,10 +9,7 @@
 set -e
 
 # --- Default values ---
-CLONE_SCHEMA=""
-CLONE_DATABASE=""
-RELEASE_NUM=""
-CONNECTION_NAME="sfseeurope-demo_mdaeppen"
+CONNECTION_NAME="sfseeurope-demo_ci_user"
 OUTPUT_FORMAT="csv"
 HEADER="false"
 
@@ -54,7 +51,6 @@ run_test() {
   echo "🔎 Running test: $description"
   echo "📄 Executing SQL: $query"
 
-  # Capture and clean result (remove quotes and carriage returns)
   raw_result=$(snowsql -c "$CONNECTION_NAME" \
                        -q "$query" \
                        -o output_format=$OUTPUT_FORMAT \
@@ -62,7 +58,7 @@ run_test() {
                        -o timing=false \
                        -o friendly=false 2>/dev/null)
 
-  result=$(echo "$raw_result" | tr -d '\r' | sed 's/^"\(.*\)"$/\1/')
+  result=$(echo "$raw_result" | tr -d '\r' | tail -n 1 | sed 's/^"\(.*\)"$/\1/')
 
   echo "📤 Result: $result"
 
@@ -85,7 +81,7 @@ run_test "Row count in RAW_IOT table" \
          "SELECT COUNT(*) FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT;" \
          "5000"
 
-run_test "Device ID 1001 has temperature = 21.5" \
+run_test "Sensor 101 has a avg temperature = 0.10909091" \
          "SELECT avg(SENSOR_0) FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID = 101;" \
          "0.10909091"
 
