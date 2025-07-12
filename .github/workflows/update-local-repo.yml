@@ -55,6 +55,14 @@ jobs:
           sleep 2
           echo "✅ Dummy deployment complete!"
 
+      - name: 🏗️ Run Snowflake Deploy Structure
+        run: |
+          bash "$BASE_DIR/local-github-process/snowflake-deploy-structure_v1.sh" \
+          --PROJECT_KEY=$PROJECT_KEY \
+          --CLONE_DATABASE=$CLONE_DATABASE \
+          --CLONE_SCHEMA=$CLONE_SCHEMA \
+          --RELEASE_NUM=$RELEASE_NUM
+
       - name: 🔍 Run SQL Validation Tests
         run: |
           bash "$BASE_DIR/sqlunit/sql_validation_v1.sh" \

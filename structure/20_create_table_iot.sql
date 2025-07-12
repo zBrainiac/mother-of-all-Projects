@@ -1,5 +1,4 @@
 -- CREATE schema if not exists iot;
-USE schema $CLONE_SCHEMA;
 
 -- create virtual warehouse
 CREATE OR REPLACE WAREHOUSE md_test_wh
