@@ -36,17 +36,17 @@ fi
 CLONE_SCHEMA_WITH_RELEASE="${CLONE_SCHEMA}_${RELEASE_NUM}"
 
 # --- Execution ---
-echo "🔗 Connecting to Snowflake and starting the clone process..."
-echo "📋 Cloning $SOURCE_DATABASE.$SOURCE_SCHEMA → $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE"
+echo "🔗 Connecting to Snowflake and starting the DROP process..."
+echo "📋 drop schema $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE"
 
 
 snowsql -c $CONNECTION_NAME -q "
-  CREATE OR REPLACE SCHEMA $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE CLONE $SOURCE_DATABASE.$SOURCE_SCHEMA;
+  DROP SCHEMA  IF EXISTS $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE;
 "
 
 # Check result
 if [ $? -eq 0 ]; then
-  echo "✅ Success! SCHEMA '${SOURCE_DATABASE}.${SOURCE_SCHEMA}' was cloned to '${CLONE_DATABASE}.${CLONE_SCHEMA_WITH_RELEASE}'."
+  echo "✅ Success! DROP SCHEMA '${CLONE_DATABASE}.${CLONE_SCHEMA_WITH_RELEASE}'."
 else
   echo "❌ An error occurred. Please review the output from SnowSQL above."
   exit 1
