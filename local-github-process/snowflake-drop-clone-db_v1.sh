@@ -2,9 +2,12 @@
 
 # -----------------------------------------------------------------------------
 # Usage:
+# ./snowflake-drop-clone-db_v1.sh --SOURCE_DATABASE=MD_TEST --SOURCE_SCHEMA=IOT_REF_20250711 --CLONE_DATABASE=MD_TEST --CLONE_SCHEMA=I0T_CLONE --RELEASE_NUM=42
 # -----------------------------------------------------------------------------
+
 # --- Default values ---
 CONNECTION_NAME="sfseeurope-demo_ci_user"
+
 # Parse named parameters
 for ARG in "$@"; do
   case $ARG in
@@ -39,24 +42,18 @@ fi
 
 CLONE_SCHEMA_WITH_RELEASE="${CLONE_SCHEMA}_${RELEASE_NUM}"
 
-# pull latest commit from git
-echo "🔗 Connecting to Snowflake and starting the deploy process..."
-echo "📋 Pull latest commit from git #_$CLONE_SCHEMA_WITH_RELEASE"
+# --- Execution ---
+echo "🔗 Connecting to Snowflake and starting the clone process..."
+echo "📋 Cloning $SOURCE_DATABASE.$SOURCE_SCHEMA → $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE"
 
-# pull latest commit from git
-#snowsql -c $CONNECTION_NAME -s "$CLONE_SCHEMA_WITH_RELEASE" -q "
-#  CREATE OR REPLACE SCHEMA $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE CLONE $SOURCE_DATABASE.$SOURCE_SCHEMA;
-#"
 
-echo "📋 deploy the latest release #_$CLONE_SCHEMA_WITH_RELEASE"
-# deploy release
-#snowsql -c sfseeurope-demo_mdaeppen -q "
-#  CREATE OR REPLACE SCHEMA $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE CLONE $SOURCE_DATABASE.$SOURCE_SCHEMA;
-#"
+snowsql -c $CONNECTION_NAME -q "
+  CREATE OR REPLACE SCHEMA $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE CLONE $SOURCE_DATABASE.$SOURCE_SCHEMA;
+"
 
 # Check result
 if [ $? -eq 0 ]; then
-  echo "✅ Success! deployment"
+  echo "✅ Success! SCHEMA '${SOURCE_DATABASE}.${SOURCE_SCHEMA}' was cloned to '${CLONE_DATABASE}.${CLONE_SCHEMA_WITH_RELEASE}'."
 else
   echo "❌ An error occurred. Please review the output from SnowSQL above."
   exit 1

@@ -52,13 +52,19 @@ jobs:
       - name: 🚧 Dummy Deploy Step
         run: |
           echo "🚀 Deploying schema $CLONE_SCHEMA with release $RELEASE_NUM to Snowflake..."
-          # Placeholder for actual deployment logic
           sleep 2
-          echo "✅ Dummy deployment complete!"    
+          echo "✅ Dummy deployment complete!"
 
       - name: 🔍 Run SQL Validation Tests
         run: |
           bash "$BASE_DIR/sqlunit/sql_validation_v1.sh" \
+          --CLONE_DATABASE=$CLONE_DATABASE \
+          --CLONE_SCHEMA=$CLONE_SCHEMA \
+          --RELEASE_NUM=$RELEASE_NUM
+
+      - name: 🧹 Drop Cloned Schema After Tests
+        run: |
+          bash "$BASE_DIR/local-github-process/snowflake-drop-clone-db_v1.sh" \
           --CLONE_DATABASE=$CLONE_DATABASE \
           --CLONE_SCHEMA=$CLONE_SCHEMA \
           --RELEASE_NUM=$RELEASE_NUM
