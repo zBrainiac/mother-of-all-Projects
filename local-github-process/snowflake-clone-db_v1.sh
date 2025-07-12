@@ -2,15 +2,21 @@
 
 # -----------------------------------------------------------------------------
 # Usage:
-# ./snowflake-clone-db_v1.sh --CLONE_DATABASE=MD_TEST --CLONE_SCHEMA=I0T_CLONE --RELEASE_NUM=42
+# ./snowflake-clone-db_v1.sh --SOURCE_DATABASE=MD_TEST --SOURCE_SCHEMA=IOT_REF_20250711 --CLONE_DATABASE=MD_TEST --CLONE_SCHEMA=I0T_CLONE --RELEASE_NUM=42
 # -----------------------------------------------------------------------------
 
 # --- Default values ---
 CONNECTION_NAME="sfseeurope-demo_ci_user"
 
-# Parse named parameters
+# Parse arguments
 for ARG in "$@"; do
   case $ARG in
+    --SOURCE_DATABASE=*)
+      SOURCE_DATABASE="${ARG#*=}"
+      ;;
+    --SOURCE_SCHEMA=*)
+      SOURCE_SCHEMA="${ARG#*=}"
+      ;;
     --CLONE_DATABASE=*)
       CLONE_DATABASE="${ARG#*=}"
       ;;
@@ -27,10 +33,9 @@ for ARG in "$@"; do
   esac
 done
 
-# Validate input
-if [[ -z "$CLONE_DATABASE" || -z "$CLONE_SCHEMA" || -z "$RELEASE_NUM" ]]; then
+# Validate inputs
+if [[ -z "$SOURCE_DATABASE" || -z "$SOURCE_SCHEMA" || -z "$CLONE_DATABASE" || -z "$CLONE_SCHEMA" || -z "$RELEASE_NUM" ]]; then
   echo "❌ Missing required arguments."
-  echo "Usage: $0 --CLONE_DATABASE=... --CLONE_SCHEMA=... --RELEASE_NUM=..."
   exit 1
 fi
 
