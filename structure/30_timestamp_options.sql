@@ -1,3 +1,10 @@
+-- context:
+SELECT
+  CURRENT_DATABASE() AS database_name,
+  CURRENT_SCHEMA() AS schema_name,
+  CURRENT_USER() AS current_user,
+  CURRENT_ROLE() AS current_role;
+
 -- Here's a Snowflake CREATE TABLE statement showcasing various possible timestamp column definitions,
 -- each as a separate field, with inline comments describing each variant:
 

@@ -1,3 +1,10 @@
+-- context:
+SELECT
+  CURRENT_DATABASE() AS database_name,
+  CURRENT_SCHEMA() AS schema_name,
+  CURRENT_USER() AS current_user,
+  CURRENT_ROLE() AS current_role;
+
 -- correct
 CREATE SCHEMA IF NOT EXISTS raw_test_edertt_v001;
 

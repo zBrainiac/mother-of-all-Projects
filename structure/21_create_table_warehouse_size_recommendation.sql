@@ -1,3 +1,10 @@
+-- context:
+SELECT
+  CURRENT_DATABASE() AS database_name,
+  CURRENT_SCHEMA() AS schema_name,
+  CURRENT_USER() AS current_user,
+  CURRENT_ROLE() AS current_role;
+
 CREATE OR ALTER TABLE warehouse_size_recommendation
 (bytes_scanned_lower integer
 , bytes_scanned_upper integer
