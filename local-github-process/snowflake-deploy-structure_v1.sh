@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------------------
 # Executes all SQL files under the structure folder of a given project
 # Usage:
-# ./snowflake-deploy-structure_v1.sh --PROJECT_KEY=mother-of-all-Projects --CLONE_DATABASE=MD_TEST --CLONE_SCHEMA=IOT_CLONE --RELEASE_NUM=42
+# ./snowflake-deploy-structure_v1.sh --PROJECT_KEY=mother-of-all-Projects --CLONE_DATABASE=MD_TEST --CLONE_SCHEMA=IOT_CLONE --RELEASE_NUM=50
 # -----------------------------------------------------------------------------
 
 set -e
@@ -75,10 +75,13 @@ for FILE in $SQL_FILES; do
   {
     echo "USE DATABASE $CLONE_DATABASE;"
     echo "USE SCHEMA $CLONE_SCHEMA_WITH_RELEASE;"
+    echo "SELECT
+            CURRENT_DATABASE() AS database_name,
+            CURRENT_SCHEMA() AS schema_name,
+            CURRENT_USER() AS current_user,
+            CURRENT_ROLE() AS current_role;"
     cat "$FILE"
   } > "$TMP_FILE"
-
-  echo "$TMP_FILE"
 
   snowsql -c "$CONNECTION_NAME" -f "$TMP_FILE" -o exit_on_error=true
 
