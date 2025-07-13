@@ -22,8 +22,11 @@ jobs:
       CLONE_SCHEMA: IOT_CLONE
 
     steps:
-      - name: 📛 Show repository name
-        run: echo "This repo is called $PROJECT_KEY"
+      - name: 📛 Show repo info
+        run: |
+          echo "📦 Project: $PROJECT_KEY"
+          echo "🔀 Branch: $SONAR_BRANCH_NAME"
+          echo "📌 Release #: $RELEASE_NUM"
 
       - name: 📥 Checkout repository
         uses: actions/checkout@v4

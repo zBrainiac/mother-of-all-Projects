@@ -1,1 +1,4 @@
 /local-github-process/sec.txt
+/local-github-process/sonarqube/
+/local-github-process/.env
+/local-github-process/docker-compose.yml
