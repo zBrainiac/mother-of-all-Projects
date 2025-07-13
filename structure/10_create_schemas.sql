@@ -10,14 +10,16 @@ CREATE SCHEMA IF NOT EXISTS test_md_123_v01;
 
 
 -- no RAW | REF prefix
-CREATE SCHEMA test_md_123_v001;
+CREATE SCHEMA test_md_123_v002;
 
 -- version only 2-digits
-CREATE SCHEMA test_md_123_v01;
+CREATE SCHEMA test_md_123_v02;
 
 
 
 -- drop all
 DROP SCHEMA raw_test_edertt_v001;
 DROP SCHEMA test_md_123_v001;
+DROP SCHEMA test_md_123_v002;
 DROP SCHEMA test_md_123_v01;
+DROP SCHEMA test_md_123_v02;
