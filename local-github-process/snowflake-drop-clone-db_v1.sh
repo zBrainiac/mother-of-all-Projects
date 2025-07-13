@@ -2,7 +2,7 @@
 
 # -----------------------------------------------------------------------------
 # Usage:
-# ./snowflake-drop-clone-db_v1.sh --CLONE_DATABASE=MD_TEST --CLONE_SCHEMA=I0T_CLONE --RELEASE_NUM=42
+# ./snowflake-drop-clone-db_v1.sh --CLONE_DATABASE=MD_TEST --CLONE_SCHEMA=IOT_CLONE --RELEASE_NUM=42
 # -----------------------------------------------------------------------------
 
 # --- Default values ---

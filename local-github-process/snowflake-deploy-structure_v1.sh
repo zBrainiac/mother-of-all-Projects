@@ -36,29 +36,16 @@ for ARG in "$@"; do
 done
 
 # --- Validate required inputs ---
-if [[ -z "$PROJECT_KEY" ]]; then
-  echo "❌ Missing required argument: --PROJECT_KEY"
-  exit 1
-fi
-
-if [[ -z "$CLONE_DATABASE" ]]; then
-  echo "❌ Missing required argument: --CLONE_DATABASE"
-  exit 1
-fi
-
-if [[ -z "$CLONE_SCHEMA" ]]; then
-  echo "❌ Missing required argument: --CLONE_SCHEMA"
-  exit 1
-fi
-
-if [[ -z "$RELEASE_NUM" ]]; then
-  echo "❌ Missing required argument: --RELEASE_NUM"
+if [[ -z "$PROJECT_KEY" || -z "$CLONE_DATABASE" || -z "$CLONE_SCHEMA" || -z "$RELEASE_NUM" ]]; then
+  echo "❌ Missing required arguments."
+  echo "Usage: $0 --PROJECT_KEY=name --CLONE_DATABASE=db --CLONE_SCHEMA=schema --RELEASE_NUM=num"
   exit 1
 fi
 
 # --- Build project paths ---
 PROJECT_DIR="$BASE_WORKSPACE/$PROJECT_KEY"
 SQL_DIR="$PROJECT_DIR/structure"
+CLONE_SCHEMA_WITH_RELEASE="${CLONE_SCHEMA}_${RELEASE_NUM}"
 
 if [[ ! -d "$SQL_DIR" ]]; then
   echo "❌ Structure folder not found: $SQL_DIR"
@@ -68,8 +55,7 @@ fi
 echo "📂 Scanning for SQL files in: $SQL_DIR"
 echo "📌 Using PROJECT_KEY: $PROJECT_KEY"
 echo "📌 CLONE_DATABASE: $CLONE_DATABASE"
-echo "📌 CLONE_SCHEMA: $CLONE_SCHEMA"
-echo "📌 RELEASE_NUM: $RELEASE_NUM"
+echo "📌 CLONE_SCHEMA_WITH_RELEASE: $CLONE_SCHEMA_WITH_RELEASE"
 echo ""
 
 # --- Find and sort SQL files ---
@@ -80,17 +66,25 @@ if [[ -z "$SQL_FILES" ]]; then
   exit 0
 fi
 
-# --- Execute each SQL file ---
+# --- Execute each SQL file with USE statements prepended ---
 for FILE in $SQL_FILES; do
   echo "📄 Executing: $FILE"
 
-  snowsql -c "$CONNECTION_NAME" -f "$FILE" \
-          -DCLONE_DATABASE="$CLONE_DATABASE" \
-          -DCLONE_SCHEMA="$CLONE_SCHEMA" \
-          -DRELEASE_NUM="$RELEASE_NUM" \
-          -o exit_on_error=true 2>&1
+  # Create a temporary file with USE DATABASE and USE SCHEMA prepended
+  TMP_FILE=$(mktemp)
+  {
+    echo "USE DATABASE $CLONE_DATABASE;"
+    echo "USE SCHEMA $CLONE_SCHEMA_WITH_RELEASE;"
+    cat "$FILE"
+  } > "$TMP_FILE"
+
+  echo "$TMP_FILE"
+
+  snowsql -c "$CONNECTION_NAME" -f "$TMP_FILE" -o exit_on_error=true
 
   RESULT=$?
+  rm "$TMP_FILE"
+
   if [[ $RESULT -ne 0 ]]; then
     echo "❌ Execution failed for: $FILE"
     echo "⛔️ Aborting remaining scripts."

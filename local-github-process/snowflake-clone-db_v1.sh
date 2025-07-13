@@ -2,7 +2,7 @@
 
 # -----------------------------------------------------------------------------
 # Usage:
-# ./snowflake-clone-db_v1.sh --SOURCE_DATABASE=MD_TEST --SOURCE_SCHEMA=IOT_REF_20250711 --CLONE_DATABASE=MD_TEST --CLONE_SCHEMA=I0T_CLONE --RELEASE_NUM=42
+# ./snowflake-clone-db_v1.sh --SOURCE_DATABASE=MD_TEST --SOURCE_SCHEMA=IOT_REF_20250711 --CLONE_DATABASE=MD_TEST --CLONE_SCHEMA=IOT_CLONE --RELEASE_NUM=42
 # -----------------------------------------------------------------------------
 
 # --- Default values ---

@@ -3,7 +3,7 @@
 # -----------------------------------------------------------------------------
 # Snowflake SQL Validation Script
 # Usage:
-# ./sql_validation_v1.sh --CLONE_SCHEMA=I0T_CLONE --CLONE_DATABASE=MD_TEST --RELEASE_NUM=44
+# ./sql_validation_v1.sh --CLONE_SCHEMA=IOT_CLONE --CLONE_DATABASE=MD_TEST --RELEASE_NUM=44
 # -----------------------------------------------------------------------------
 
 set -e
