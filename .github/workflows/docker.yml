@@ -15,7 +15,7 @@ jobs:
       RELEASE_NUM: ${{ github.run_number }}
       SONAR_BRANCH_NAME: ${{ github.ref_name }}
       SONAR_HOST: http://localhost:9000
-      BASE_DIR: /home/runner/work/Mother-of-all-Projects
+      BASE_DIR: ${{ github.workspace }}
       SOURCE_DATABASE: MD_TEST
       SOURCE_SCHEMA: IOT_REF_20250711
       CLONE_DATABASE: MD_TEST
