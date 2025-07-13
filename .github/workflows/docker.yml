@@ -1,4 +1,4 @@
-name: Update Local Repository and Run Sonar Scanner
+name: Git pull, Sonar, deploy, test
 
 on:
   push:
@@ -15,18 +15,15 @@ jobs:
       RELEASE_NUM: ${{ github.run_number }}
       SONAR_BRANCH_NAME: ${{ github.ref_name }}
       SONAR_HOST: http://localhost:9000
-      BASE_DIR: /home/runner/work/Mother-of-all-Projects
+      BASE_DIR: ${{ github.workspace }}
       SOURCE_DATABASE: MD_TEST
       SOURCE_SCHEMA: IOT_REF_20250711
       CLONE_DATABASE: MD_TEST
       CLONE_SCHEMA: IOT_CLONE
 
     steps:
-      - name: 📛 Show repo info
-        run: |
-          echo "📦 Project: $PROJECT_KEY"
-          echo "🔀 Branch: $SONAR_BRANCH_NAME"
-          echo "📌 Release #: $RELEASE_NUM"
+      - name: 📛 Show repository name
+        run: echo "This repo is called $PROJECT_KEY"
 
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +34,6 @@ jobs:
       - name: 🧪 Run Sonar Scanner
         run: |
           bash "$BASE_DIR/local-github-process/sonar-scanner_v1.sh"
-
       - name: ✅ Wait for Quality Gate to complete
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
         with:
@@ -51,13 +47,11 @@ jobs:
           --CLONE_DATABASE=$CLONE_DATABASE \
           --CLONE_SCHEMA=$CLONE_SCHEMA \
           --RELEASE_NUM=$RELEASE_NUM
-
       - name: 🚧 Dummy Deploy Step
         run: |
           echo "🚀 Deploying schema $CLONE_SCHEMA with release $RELEASE_NUM to Snowflake..."
           sleep 2
           echo "✅ Dummy deployment complete!"
-
       - name: 🏗️ Run Snowflake Deploy Structure
         run: |
           bash "$BASE_DIR/local-github-process/snowflake-deploy-structure_v1.sh" \
@@ -65,25 +59,21 @@ jobs:
           --CLONE_DATABASE=$CLONE_DATABASE \
           --CLONE_SCHEMA=$CLONE_SCHEMA \
           --RELEASE_NUM=$RELEASE_NUM
-
       - name: 🔍 Run SQL Validation Tests
         run: |
           bash "$BASE_DIR/sqlunit/sql_validation_v1.sh" \
           --CLONE_DATABASE=$CLONE_DATABASE \
           --CLONE_SCHEMA=$CLONE_SCHEMA \
           --RELEASE_NUM=$RELEASE_NUM
-
       - name: 🧹 Drop Cloned Schema After Tests
         run: |
           bash "$BASE_DIR/local-github-process/snowflake-drop-clone-db_v1.sh" \
           --CLONE_DATABASE=$CLONE_DATABASE \
           --CLONE_SCHEMA=$CLONE_SCHEMA \
           --RELEASE_NUM=$RELEASE_NUM
-
       - name: 📦 Zip source files
         run: |
           zip -r release.zip . -x '*.git*' '*.scannerwork*'
-
       - name: 🚀 Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
