@@ -1,5 +1,5 @@
 -- correct
-CREATE SCHEMA IF NOT EXISTS raw_test_edertt_v001;
+CREATE SCHEMA IF NOT EXISTS RAW_test_edertt_v001;
 
 
 -- no RAW | REF prefix
