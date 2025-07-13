@@ -1,14 +1,5 @@
--- context:
-SELECT
-  CURRENT_DATABASE() AS database_name,
-  CURRENT_SCHEMA() AS schema_name,
-  CURRENT_USER() AS current_user,
-  CURRENT_ROLE() AS current_role;
-
 -- Here's a Snowflake CREATE TABLE statement showcasing various possible timestamp column definitions,
 -- each as a separate field, with inline comments describing each variant:
-
-
 
 -- | Type                | UTC Behavior                                                     |
 -- | ------------------- | ---------------------------------------------------------------- |
@@ -16,7 +7,21 @@ SELECT
 -- | **`TIMESTAMP_LTZ`** | Stores timestamp normalized to UTC, shows session local time     |
 -- | **`TIMESTAMP_NTZ`** | No time zone info, raw timestamp only (not UTC)                  |
 
-
+-- Create table with various TIMESTAMP column types and precisions
+CREATE OR REPLACE TEMPORARY TABLE ABC_timestamp_examples (
+    ts_no_precision                  TIMESTAMP,              -- Default timestamp (usually 9 fractional seconds)
+    ts_default_precision             TIMESTAMP(9),           -- Explicit max precision (nanoseconds)
+    ts_millisecond_precision         TIMESTAMP(3),           -- Milliseconds precision
+    ts_microsecond_precision         TIMESTAMP(6),           -- Microseconds precision
+    ts_nanosecond_precision          TIMESTAMP(9),           -- Nanoseconds precision
+    ts_without_timezone              TIMESTAMP_NTZ,          -- No time zone info (raw timestamp)
+    ts_with_timezone                 TIMESTAMP_TZ,           -- With time zone (stored in UTC)
+    ts_local_timezone                TIMESTAMP_LTZ,          -- Session-local timezone (normalized to UTC)
+    ts_with_timezone_precision       TIMESTAMP_TZ(3),        -- With timezone and milliseconds precision
+    ts_with_timezone_max_precision   TIMESTAMP_TZ(9),        -- With timezone and nanoseconds precision
+    ts_ltz_millisecond_precision     TIMESTAMP_LTZ(3),       -- Local timezone with milliseconds precision
+    ts_ltz_microsecond_precision     TIMESTAMP_LTZ(6)        -- Local timezone with microseconds precision
+);
 
 -- Insert values into timestamp example table
 INSERT INTO ABC_timestamp_examples (
@@ -75,3 +80,5 @@ INSERT INTO ABC_timestamp_examples (
     CAST(CURRENT_TIMESTAMP AS TIMESTAMP_LTZ(3)),           -- LTZ + millisecond
     CAST(CURRENT_TIMESTAMP AS TIMESTAMP_LTZ(6))            -- LTZ + microsecond
 );
+
+SELECT * FROM ABC_TIMESTAMP_EXAMPLES;
