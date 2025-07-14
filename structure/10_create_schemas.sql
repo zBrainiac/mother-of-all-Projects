@@ -11,8 +11,8 @@ CREATE SCHEMA IF NOT EXISTS REF_test_edertt_v001;
 CREATE SCHEMA IF NOT EXISTS CON_test_edertt_v001;
 CREATE SCHEMA IF NOT EXISTS AGG_test_edertt_v001;
 
-CREATE SCHEMA RAW_test_edertt_v001;
-CREATE SCHEMA raw_test_edertt_v001;
+CREATE SCHEMA RAW_test_edertt_v002;
+CREATE SCHEMA raw_test_edertt_v003;
 
 -- prefix naming not valid
 CREATE SCHEMA IF NOT EXISTS test_md_123_v001;
@@ -33,14 +33,15 @@ CREATE SCHEMA IF NOT EXISTS test_md_123_V001;
 
 -- not valid
 CREATE SCHEMA IF NOT EXISTS test_md_123_x001;
-CREATE SCHEMA IF NOT EXISTS test_md_123_v001-1;
+CREATE SCHEMA IF NOT EXISTS test_md_123_v001_1;
 CREATE SCHEMA test_md_123_v02;
 CREATE SCHEMA test_md_123;
 
 
 -- invalid drop schema statements
 DROP SCHEMA RAW_test_edertt_v001;
-DROP SCHEMA raw_test_edertt_v001;
+DROP SCHEMA RAW_test_edertt_v002;
+DROP SCHEMA raw_test_edertt_v003;
 DROP SCHEMA DP_test_edertt_v001;
 DROP SCHEMA DM_test_edertt_v001;
 DROP SCHEMA REF_test_edertt_v001;
@@ -58,6 +59,6 @@ DROP SCHEMA IF EXISTS tes_md_123_v01;
 DROP SCHEMA IF EXISTS test_md_123_v002;
 DROP SCHEMA IF EXISTS test_md_123_V001;
 DROP SCHEMA IF EXISTS test_md_123_x001;
-DROP SCHEMA IF EXISTS test_md_123_v001-1;
+DROP SCHEMA IF EXISTS test_md_123_v001_1;
 DROP SCHEMA IF EXISTS test_md_123_v02;
 DROP SCHEMA IF EXISTS test_md_123;
