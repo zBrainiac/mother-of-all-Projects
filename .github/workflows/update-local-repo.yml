@@ -30,6 +30,8 @@ jobs:
 
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # This ensures a full clone, avoiding shallow clone issues
 
       - name: 🔄 Pull latest changes
         run: git pull
