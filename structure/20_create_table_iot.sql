@@ -24,10 +24,10 @@ CREATE OR REPLACE TABLE permanent_table_name_not_valide (
     created_at TIMESTAMP_TZ
 );
 
-CREATE TABLE IF NOT EXISTS AB_permanent_table_name_not_valide (
+CREATE TABLE IF NOT EXISTS AB_permanent_1_table_name_not_valide (
     id INT,
     name STRING,
-    created_at TIMESTIMESTAMP_TZTAMP
+    created_at TIMESTAMP_TZ
 );
 
 
