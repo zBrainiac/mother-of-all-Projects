@@ -8,7 +8,7 @@ SONAR_REF_DIR="$INFRA_DIR/sonarqube-ref"
 EXPORT_DIR="$SONAR_REF_DIR/data"
 
 # SonarQube data dir (can override via env var)
-DATA_DIR="${SONARQUBE_DATA_DIR:-/Users/mdaeppen/infra/sonarqube/data}"
+DATA_DIR="${SONARQUBE_DATA_DIR:-$HOME/infra/sonarqube/data}"
 echo "[INFO] Using SonarQube data dir: $DATA_DIR"
 
 # H2 database file

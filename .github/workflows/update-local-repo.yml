@@ -15,30 +15,36 @@ jobs:
       RELEASE_NUM: ${{ github.run_number }}
       SONAR_BRANCH_NAME: ${{ github.ref_name }}
       SONAR_HOST: http://localhost:9000
-      BASE_DIR: /Users/mdaeppen/workspace/Mother-of-all-Projects
       SOURCE_DATABASE: MD_TEST
       SOURCE_SCHEMA: IOT_REF_20250711
       CLONE_DATABASE: MD_TEST
       CLONE_SCHEMA: IOT_CLONE
 
     steps:
+      - name: 🔧 Set up dynamic base directories
+        run: |
+          echo "BASE_DIR_INFRA=$HOME/workspace/Mother-of-all-Projects" >> $GITHUB_ENV
+          echo "BASE_DIR_PROJECT=$HOME/workspace/${PROJECT_KEY}" >> $GITHUB_ENV
+
       - name: 📛 Show repo info
         run: |
           echo "📦 Project: $PROJECT_KEY"
           echo "🔀 Branch: $SONAR_BRANCH_NAME"
           echo "📌 Release #: $RELEASE_NUM"
+          echo "🗂 BASE_DIR_INFRA: $BASE_DIR_INFRA"
+          echo "🗂 BASE_DIR_PROJECT: $BASE_DIR_PROJECT"
 
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # This ensures a full clone, avoiding shallow clone issues
+          fetch-depth: 0
 
       - name: 🔄 Pull latest changes
         run: git pull
 
       - name: 🧪 Run Sonar Scanner
         run: |
-          bash "$BASE_DIR/local-github-process/sonar-scanner_v1.sh"
+          bash "$BASE_DIR_INFRA/local-github-process/sonar-scanner_v1.sh"
 
       - name: ✅ Wait for Quality Gate to complete
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
@@ -47,12 +53,12 @@ jobs:
 
       - name: ❄️ Run Snowflake Schema Cloning
         run: |
-          bash "$BASE_DIR/local-github-process/snowflake-clone-db_v1.sh" \
-          --SOURCE_DATABASE=$SOURCE_DATABASE \
-          --SOURCE_SCHEMA=$SOURCE_SCHEMA \
-          --CLONE_DATABASE=$CLONE_DATABASE \
-          --CLONE_SCHEMA=$CLONE_SCHEMA \
-          --RELEASE_NUM=$RELEASE_NUM
+          bash "$BASE_DIR_INFRA/local-github-process/snowflake-clone-db_v1.sh" \
+            --SOURCE_DATABASE=$SOURCE_DATABASE \
+            --SOURCE_SCHEMA=$SOURCE_SCHEMA \
+            --CLONE_DATABASE=$CLONE_DATABASE \
+            --CLONE_SCHEMA=$CLONE_SCHEMA \
+            --RELEASE_NUM=$RELEASE_NUM
 
       - name: 🚧 Dummy Deploy Step
         run: |
@@ -62,25 +68,25 @@ jobs:
 
       - name: 🏗️ Run Snowflake Deploy Structure
         run: |
-          bash "$BASE_DIR/local-github-process/snowflake-deploy-structure_v1.sh" \
-          --PROJECT_KEY=$PROJECT_KEY \
-          --CLONE_DATABASE=$CLONE_DATABASE \
-          --CLONE_SCHEMA=$CLONE_SCHEMA \
-          --RELEASE_NUM=$RELEASE_NUM
+          bash "$BASE_DIR_INFRA/local-github-process/snowflake-deploy-structure_v1.sh" \
+            --PROJECT_KEY=$PROJECT_KEY \
+            --CLONE_DATABASE=$CLONE_DATABASE \
+            --CLONE_SCHEMA=$CLONE_SCHEMA \
+            --RELEASE_NUM=$RELEASE_NUM
 
       - name: 🔍 Run SQL Validation Tests
         run: |
-          bash "$BASE_DIR/sqlunit/sql_validation_v1.sh" \
-          --CLONE_DATABASE=$CLONE_DATABASE \
-          --CLONE_SCHEMA=$CLONE_SCHEMA \
-          --RELEASE_NUM=$RELEASE_NUM
+          bash "$BASE_DIR_INFRA/sqlunit/sql_validation_v1.sh" \
+            --CLONE_DATABASE=$CLONE_DATABASE \
+            --CLONE_SCHEMA=$CLONE_SCHEMA \
+            --RELEASE_NUM=$RELEASE_NUM
 
       - name: 🧹 Drop Cloned Schema After Tests
         run: |
-          bash "$BASE_DIR/local-github-process/snowflake-drop-clone-db_v1.sh" \
-          --CLONE_DATABASE=$CLONE_DATABASE \
-          --CLONE_SCHEMA=$CLONE_SCHEMA \
-          --RELEASE_NUM=$RELEASE_NUM
+          bash "$BASE_DIR_INFRA/local-github-process/snowflake-drop-clone-db_v1.sh" \
+            --CLONE_DATABASE=$CLONE_DATABASE \
+            --CLONE_SCHEMA=$CLONE_SCHEMA \
+            --RELEASE_NUM=$RELEASE_NUM
 
       - name: 📦 Zip source files
         run: |

@@ -10,7 +10,7 @@ set -e
 
 # --- Default values ---
 CONNECTION_NAME="sfseeurope-demo_ci_user"
-BASE_WORKSPACE="/Users/mdaeppen/workspace"
+BASE_WORKSPACE="$HOME/workspace"
 
 # --- Parse arguments ---
 for ARG in "$@"; do
