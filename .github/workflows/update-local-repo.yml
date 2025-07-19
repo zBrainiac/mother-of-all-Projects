@@ -23,7 +23,6 @@ jobs:
     steps:
       - name: 🔧 Set up dynamic base directories
         run: |
-          echo "BASE_DIR_INFRA=$HOME/workspace/Mother-of-all-Projects" >> $GITHUB_ENV
           echo "BASE_DIR_PROJECT=$HOME/workspace/${PROJECT_KEY}" >> $GITHUB_ENV
 
       - name: 📛 Show repo info
@@ -31,7 +30,6 @@ jobs:
           echo "📦 Project: $PROJECT_KEY"
           echo "🔀 Branch: $SONAR_BRANCH_NAME"
           echo "📌 Release #: $RELEASE_NUM"
-          echo "🗂 BASE_DIR_INFRA: $BASE_DIR_INFRA"
           echo "🗂 BASE_DIR_PROJECT: $BASE_DIR_PROJECT"
 
       - name: 📥 Checkout repository
@@ -44,7 +42,7 @@ jobs:
 
       - name: 🧪 Run Sonar Scanner
         run: |
-          bash "$BASE_DIR_INFRA/local-github-process/sonar-scanner_v1.sh"
+          bash /usr/local/bin/sonar-scanner_v1.sh
 
       - name: ✅ Wait for Quality Gate to complete
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
@@ -53,7 +51,7 @@ jobs:
 
       - name: ❄️ Run Snowflake Schema Cloning
         run: |
-          bash "$BASE_DIR_INFRA/local-github-process/snowflake-clone-db_v1.sh" \
+          bash /usr/local/bin/snowflake-clone-db_v1.sh \
             --SOURCE_DATABASE=$SOURCE_DATABASE \
             --SOURCE_SCHEMA=$SOURCE_SCHEMA \
             --CLONE_DATABASE=$CLONE_DATABASE \
@@ -68,7 +66,7 @@ jobs:
 
       - name: 🏗️ Run Snowflake Deploy Structure
         run: |
-          bash "$BASE_DIR_INFRA/local-github-process/snowflake-deploy-structure_v1.sh" \
+          bash /usr/local/bin/snowflake-deploy-structure_v1.sh \
             --PROJECT_KEY=$PROJECT_KEY \
             --CLONE_DATABASE=$CLONE_DATABASE \
             --CLONE_SCHEMA=$CLONE_SCHEMA \
@@ -76,14 +74,14 @@ jobs:
 
       - name: 🔍 Run SQL Validation Tests
         run: |
-          bash "$BASE_DIR_INFRA/sqlunit/sql_validation_v1.sh" \
+          bash "$BASE_DIR_PROJECT/sqlunit/sql_validation_v1.sh" \
             --CLONE_DATABASE=$CLONE_DATABASE \
             --CLONE_SCHEMA=$CLONE_SCHEMA \
             --RELEASE_NUM=$RELEASE_NUM
 
       - name: 🧹 Drop Cloned Schema After Tests
         run: |
-          bash "$BASE_DIR_INFRA/local-github-process/snowflake-drop-clone-db_v1.sh" \
+          bash /usr/local/bin/snowflake-drop-clone-db_v1.sh \
             --CLONE_DATABASE=$CLONE_DATABASE \
             --CLONE_SCHEMA=$CLONE_SCHEMA \
             --RELEASE_NUM=$RELEASE_NUM
