@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS AB_permanent_1_table_name_not_valide (
     created_at TIMESTAMP_TZ
 );
 
+USE ROLE ACCOUNTADMIN;
 
 CREATE TABLE IF NOT EXISTS MD_TEST.IOT_REF_20250711.ABC_permanent_not_valide_db_schema_prefix (
     id INT,
