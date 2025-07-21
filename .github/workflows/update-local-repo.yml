@@ -19,6 +19,8 @@ jobs:
       SOURCE_SCHEMA: IOT_REF_20250711
       CLONE_DATABASE: MD_TEST
       CLONE_SCHEMA: IOT_CLONE
+      SNOW_CONFIG_B64: ${{ secrets.SNOW_CONFIG_B64 }}
+      SNOW_KEY_B64: ${{ secrets.SNOW_KEY_B64 }}
 
     steps:
       - name: 🔧 Set up dynamic base directories
@@ -42,7 +44,7 @@ jobs:
 
       - name: 🧪 Run Sonar Scanner
         run: |
-          bash /usr/local/bin/sonar-scanner_v1.sh
+          bash /usr/local/bin/sonar-scanner_v2.sh
 
       - name: ✅ Wait for Quality Gate to complete
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
@@ -51,40 +53,38 @@ jobs:
 
       - name: ❄️ Run Snowflake Schema Cloning
         run: |
-          bash /usr/local/bin/snowflake-clone-db_v1.sh \
+          bash /usr/local/bin/snowflake-clone-db_v2.sh \
             --SOURCE_DATABASE=$SOURCE_DATABASE \
             --SOURCE_SCHEMA=$SOURCE_SCHEMA \
             --CLONE_DATABASE=$CLONE_DATABASE \
             --CLONE_SCHEMA=$CLONE_SCHEMA \
-            --RELEASE_NUM=$RELEASE_NUM
-
-      - name: 🚧 Dummy Deploy Step
-        run: |
-          echo "🚀 Deploying schema $CLONE_SCHEMA with release $RELEASE_NUM to Snowflake..."
-          sleep 2
-          echo "✅ Dummy deployment complete!"
+            --RELEASE_NUM=$RELEASE_NUM \
+            --CONNECTION_NAME=$CONNECTION_NAME
 
       - name: 🏗️ Run Snowflake Deploy Structure
         run: |
-          bash /usr/local/bin/snowflake-deploy-structure_v1.sh \
+          bash /usr/local/bin/snowflake-deploy-structure_v2.sh \
             --PROJECT_KEY=$PROJECT_KEY \
             --CLONE_DATABASE=$CLONE_DATABASE \
             --CLONE_SCHEMA=$CLONE_SCHEMA \
-            --RELEASE_NUM=$RELEASE_NUM
+            --RELEASE_NUM=$RELEASE_NUM \
+            --CONNECTION_NAME=$CONNECTION_NAME
 
       - name: 🔍 Run SQL Validation Tests
         run: |
-          bash "$BASE_DIR_PROJECT/sqlunit/sql_validation_v1.sh" \
+          bash "$BASE_DIR_PROJECT/sqlunit/sql_validation_v2.sh" \
             --CLONE_DATABASE=$CLONE_DATABASE \
             --CLONE_SCHEMA=$CLONE_SCHEMA \
-            --RELEASE_NUM=$RELEASE_NUM
+            --RELEASE_NUM=$RELEASE_NUM \
+            --CONNECTION_NAME=$CONNECTION_NAME
 
       - name: 🧹 Drop Cloned Schema After Tests
         run: |
-          bash /usr/local/bin/snowflake-drop-clone-db_v1.sh \
+          bash /usr/local/bin/snowflake-drop-clone-db_v2.sh \
             --CLONE_DATABASE=$CLONE_DATABASE \
             --CLONE_SCHEMA=$CLONE_SCHEMA \
-            --RELEASE_NUM=$RELEASE_NUM
+            --RELEASE_NUM=$RELEASE_NUM \
+            --CONNECTION_NAME=$CONNECTION_NAME
 
       - name: 📦 Zip source files
         run: |
