@@ -51,6 +51,10 @@ jobs:
         with:
           scanMetadataReportFile: '.scannerwork/report-task.txt'
 
+      - name: 🔧 Set up github runner env
+        run: |
+          bash /usr/local/bin/github-runner_v1.sh
+
       - name: ❄️ Run Snowflake Schema Cloning
         run: |
           bash /usr/local/bin/snowflake-clone-db_v2.sh \
