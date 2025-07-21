@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: 🔧 Set up dynamic base directories
         run: |
-          echo "BASE_DIR_PROJECT=$HOME/workspace/${PROJECT_KEY}/${PROJECT_KEY}" >> $GITHUB_ENV
+          echo "BASE_DIR_PROJECT=$HOME/workspace/${PROJECT_KEY}" >> $GITHUB_ENV
 
       - name: 📛 Show repo info
         run: |
@@ -76,7 +76,7 @@ jobs:
 
       - name: 🔍 Run SQL Validation Tests
         run: |
-          bash "$BASE_DIR_PROJECT/sqlunit/sql_validation_v2.sh" \
+          bash "/tmp/runner/work/${PROJECT_KEY}/${PROJECT_KEY}/sqlunit/sql_validation_v2.sh" \
             --CLONE_DATABASE=$CLONE_DATABASE \
             --CLONE_SCHEMA=$CLONE_SCHEMA \
             --RELEASE_NUM=$RELEASE_NUM \
