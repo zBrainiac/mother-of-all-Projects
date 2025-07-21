@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: 🔧 Set up dynamic base directories
         run: |
-          echo "BASE_DIR_PROJECT=$HOME/workspace/${PROJECT_KEY}" >> $GITHUB_ENV
+          echo "BASE_DIR_PROJECT=$HOME/workspace/${PROJECT_KEY}/${PROJECT_KEY}" >> $GITHUB_ENV
 
       - name: 📛 Show repo info
         run: |
