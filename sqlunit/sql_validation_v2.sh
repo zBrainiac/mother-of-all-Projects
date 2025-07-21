@@ -2,22 +2,13 @@
 
 # -----------------------------------------------------------------------------
 # Snowflake SQL Validation using `snow` CLI
-# Usage:
 # -----------------------------------------------------------------------------
-
-
-#!/bin/bash
-
-# -----------------------------------------------------------------------------
-# Snowflake SQL Validation using `snow` CLI
 # Usage:
 # ./sql_validation_v2.sh \
 #   --CLONE_SCHEMA=IOT_CLONE \
 #   --CLONE_DATABASE=MD_TEST \
 #   --RELEASE_NUM=42 \
 #   --CONNECTION_NAME=sfseeurope-demo_ci_user
-#
-# ./sql_validation_v2.sh --CLONE_SCHEMA=IOT_CLONE --CLONE_DATABASE=MD_TEST --RELEASE_NUM=42 --CONNECTION_NAME=sfseeurope-demo_ci_user
 # -----------------------------------------------------------------------------
 
 set -e
@@ -53,17 +44,17 @@ fi
 
 CLONE_SCHEMA_WITH_RELEASE="${CLONE_SCHEMA}_${RELEASE_NUM}"
 
-# --- Helper function using `snow` CLI and jq ---
+# --- Helper function ---
 run_test() {
   local description="$1"
   local query="$2"
   local expected="$3"
-  local json_key="$4"
 
   echo "🔎 Running test: $description"
   echo "📄 Executing SQL: $query"
 
-  result=$(snow sql -c "$CONNECTION_NAME" -q "$query" --format JSON | jq -r ".[0].\"$json_key\"")
+  local result
+  result=$(snow sql -c "$CONNECTION_NAME" -q "$query" --output-format json | jq -r '.[0].result')
 
   echo "📤 Result: $result"
 
@@ -80,6 +71,7 @@ run_test() {
   else
     echo "✅ Test passed: $description"
   fi
+
   echo ""
 }
 
@@ -88,15 +80,15 @@ run_test() {
 # -----------------------------------------------------------------------------
 
 run_test "Row count in RAW_IOT table" \
-         "SELECT COUNT(*) FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT;" \
-         "5000" "COUNT(*)"
+         "SELECT COUNT(*) AS result FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT;" \
+         "5000"
 
-run_test "Sensor 101 has a avg temperature = 0.10909091" \
-         "SELECT AVG(SENSOR_0) FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID = 101;" \
-         "0.10909091" "AVG(SENSOR_0)"
+run_test "Sensor 101 has avg temperature = 0.10909091" \
+         "SELECT AVG(SENSOR_0) AS result FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID = 101;" \
+         "0.10909091"
 
 run_test "No NULLs in SENSOR_ID column" \
-         "SELECT COUNT(*) FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID IS NULL;" \
-         "0" "COUNT(*)"
+         "SELECT COUNT(*) AS result FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID IS NULL;" \
+         "0"
 
-echo "✅ All tests passed successfully!"
+echo "🎉 All tests passed successfully!"
