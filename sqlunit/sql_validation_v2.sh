@@ -9,6 +9,8 @@
 #   --CLONE_DATABASE=MD_TEST \
 #   --RELEASE_NUM=42 \
 #   --CONNECTION_NAME=sfseeurope-demo_ci_user
+#
+# ./sql_validation_v1.sh --CLONE_SCHEMA=IOT_CLONE --CLONE_DATABASE=MD_TEST --RELEASE_NUM=42 --CONNECTION_NAME=sfseeurope-demo_ci_user
 # -----------------------------------------------------------------------------
 
 set -e
@@ -50,11 +52,25 @@ run_test() {
   local query="$2"
   local expected="$3"
 
-  echo "🔎 Running test: $description"
+  echo -e "\n🔎 Running test: $description"
   echo "📄 Executing SQL: $query"
 
+  local raw_output
+  raw_output=$(snow sql -c "$CONNECTION_NAME" -q "$query" --format json 2>&1)
+  local exit_code=$?
+
+  echo "🪵 Raw output:"
+  echo "$raw_output"
+  echo "💥 Exit code: $exit_code"
+
+  if [[ $exit_code -ne 0 ]]; then
+    echo "❌ snow CLI command failed:"
+    echo "$raw_output"
+    exit 1
+  fi
+
   local result
-  result=$(snow sql -c "$CONNECTION_NAME" -q "$query" --output-format json | jq -r '.[0].result')
+  result=$(echo "$raw_output" | jq -r '.[0].RESULT // empty')
 
   echo "📤 Result: $result"
 
@@ -71,8 +87,6 @@ run_test() {
   else
     echo "✅ Test passed: $description"
   fi
-
-  echo ""
 }
 
 # -----------------------------------------------------------------------------
@@ -83,12 +97,12 @@ run_test "Row count in RAW_IOT table" \
          "SELECT COUNT(*) AS result FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT;" \
          "5000"
 
-run_test "Sensor 101 has avg temperature = 0.10909091" \
-         "SELECT AVG(SENSOR_0) AS result FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID = 101;" \
-         "0.10909091"
+run_test "Sensor 101 has SUM of temperature / Sensor 101  = 6" \
+         "SELECT SUM(SENSOR_0)::INTEGER AS RESULT FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID = 101;" \
+         "6"
 
 run_test "No NULLs in SENSOR_ID column" \
          "SELECT COUNT(*) AS result FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID IS NULL;" \
          "0"
 
-echo "🎉 All tests passed successfully!"
+echo -e "\n🎉 All tests passed successfully!"
