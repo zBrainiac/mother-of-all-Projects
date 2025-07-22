@@ -42,6 +42,10 @@ jobs:
       - name: 🔄 Pull latest changes
         run: git pull
 
+      - name: 🔧 Set up github runner env
+        run: |
+          bash /usr/local/bin/github-runner_v1.sh
+
       - name: 🧪 Run Sonar Scanner
         run: |
           bash /usr/local/bin/sonar-scanner_v2.sh
@@ -50,10 +54,6 @@ jobs:
         uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
         with:
           scanMetadataReportFile: '.scannerwork/report-task.txt'
-
-      - name: 🔧 Set up github runner env
-        run: |
-          bash /usr/local/bin/github-runner_v1.sh
 
       - name: ❄️ Run Snowflake Schema Cloning
         run: |
