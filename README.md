@@ -40,6 +40,8 @@ This project is split into **two repositories**:
     - Easily deployable using `docker-compose`
     - Preconfigured with necessary plugins and custom rules
     - Supports local testing and CI simulation
+3. **Overview of the infrastructure**:
+![overview infrastructure](images/DataOps_2025-07-24.excalidraw.png)
 
 ---
 
