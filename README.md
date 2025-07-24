@@ -35,7 +35,7 @@ This project is split into **two repositories**:
 1. **This repository**:  
    _Source code and pipeline configuration for demonstrating SonarQube quality gates, including SQL-heavy and text-based logic._
 
-2. **[project-infra](https://github.com/YOUR_ORG/project-infra)**:  
+2. **There is a second project [DataOps - infra](https://github.com/zBrainiac/sql_quality_check)**:  
    _A Docker-based infrastructure stack that includes SonarQube, PostgreSQL, and GitHub self-hosted runners._
     - Easily deployable using `docker-compose`
     - Preconfigured with necessary plugins and custom rules
@@ -65,6 +65,12 @@ This project is split into **two repositories**:
 
 1. Clone the infrastructure repo and spin up the environment:
    ```bash
-   git clone https://github.com/YOUR_ORG/project-infra.git
-   cd project-infra
-   docker-compose up -d
+   git clone https://github.com/zBrainiac/sql_quality_check.git
+   sql_quality_check
+   start your local docker enviornment 
+   ./start.sh
+
+2. download and start editing SQL in mother-of-all-Projects push to a new repo:
+   ```bash
+   git clone https://github.com/zBrainiac/mother-of-all-Projects.git
+   cd mother-of-all-Projects
