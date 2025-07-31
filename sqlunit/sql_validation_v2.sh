@@ -10,7 +10,7 @@
 #   --RELEASE_NUM=42 \
 #   --CONNECTION_NAME=sfseeurope-demo_ci_user
 #
-# ./sql_validation_v1.sh --CLONE_SCHEMA=IOT_CLONE --CLONE_DATABASE=MD_TEST --RELEASE_NUM=42 --CONNECTION_NAME=sfseeurope-demo_ci_user
+# ./sql_validation_v2.sh --CLONE_SCHEMA=IOT_CLONE --CLONE_DATABASE=MD_TEST --RELEASE_NUM=42 --CONNECTION_NAME=sfseeurope-demo_ci_user
 # -----------------------------------------------------------------------------
 
 set -e
@@ -98,11 +98,19 @@ run_test "Row count in RAW_IOT table" \
          "5000"
 
 run_test "Sensor 101 has SUM of temperature / Sensor 101  = 6" \
-         "SELECT SUM(SENSOR_0)::INTEGER AS RESULT FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID = 101;" \
-         "6"
+         "SELECT SUM(SENSOR_0) AS RESULT FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID = 101;" \
+         "6.00"
 
 run_test "No NULLs in SENSOR_ID column" \
          "SELECT COUNT(*) AS result FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID IS NULL;" \
+         "0"
+
+run_test "Sensor 101 has a avg temperature = 0.10909091" \
+         "SELECT AVG(SENSOR_0) AS RESULT FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID = 101;" \
+         "0.10909091"
+
+run_test "No NULLs in SENSOR_ID column" \
+         "SELECT COUNT(*) AS RESULT FROM $CLONE_DATABASE.$CLONE_SCHEMA_WITH_RELEASE.RAW_IOT WHERE SENSOR_ID IS NULL;" \
          "0"
 
 echo -e "\n🎉 All tests passed successfully!"

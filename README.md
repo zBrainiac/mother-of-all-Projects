@@ -35,13 +35,13 @@ This project is split into **two repositories**:
 1. **This repository**:  
    _Source code and pipeline configuration for demonstrating SonarQube quality gates, including SQL-heavy and text-based logic._
 
-2. **There is a second project [DataOps - infra](https://github.com/zBrainiac/sql_quality_check)**:  
-   _A Docker-based infrastructure stack that includes SonarQube, PostgreSQL, and GitHub self-hosted runners._
+2. **There is a second project [DataOps - Backbone](https://github.com/zBrainiac/DataOpsBackbone)**:  
+   _A Docker-based infrastructure stack that includes SonarQube, PostgreSQL, Unit Test History and GitHub self-hosted runners._
     - Easily deployable using `docker-compose`
     - Preconfigured with necessary plugins and custom rules
     - Supports local testing and CI simulation
 3. **Overview of the infrastructure**:
-![overview infrastructure](images/DataOps_2025-07-24.excalidraw.png)
+![overview infrastructure](images/DataOps_infra_overview.png)
 
 ---
 

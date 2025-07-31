@@ -76,11 +76,12 @@ jobs:
 
       - name: 🔍 Run SQL Validation Tests
         run: |
-          bash "/home/docker/actions-runner/_work/${PROJECT_KEY}/${PROJECT_KEY}/sqlunit/sql_validation_v2.sh" \
+          bash /usr/local/bin/sql_validation_v4.sh \
             --CLONE_DATABASE=$CLONE_DATABASE \
             --CLONE_SCHEMA=$CLONE_SCHEMA \
             --RELEASE_NUM=$RELEASE_NUM \
             --CONNECTION_NAME=$CONNECTION_NAME
+            --TEST_FILE="/home/docker/actions-runner/_work/${PROJECT_KEY}/${PROJECT_KEY}/sqlunit/tests.sqltest"
 
       - name: 🧹 Drop Cloned Schema After Tests
         run: |
