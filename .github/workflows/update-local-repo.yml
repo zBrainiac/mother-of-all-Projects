@@ -81,7 +81,7 @@ jobs:
             --CLONE_SCHEMA=$CLONE_SCHEMA \
             --RELEASE_NUM=$RELEASE_NUM \
             --CONNECTION_NAME=$CONNECTION_NAME
-            --TEST_FILE="/home/docker/actions-runner/_work/${PROJECT_KEY}/${PROJECT_KEY}/sqlunit/tests.sqltest"
+            --TEST_FILE="/home/docker/actions-runner/_work/$PROJECT_KEY/$PROJECT_KEY/sqlunit/tests.sqltest"
 
       - name: 🧹 Drop Cloned Schema After Tests
         run: |
