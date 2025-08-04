@@ -1,3 +1,23 @@
+# ======================================================
+#               🔒 GITHUB WORKFLOW 🔒        
+# ======================================================
+# 🚨 DO NOT MODIFY THIS FILE 🚨
+#
+# 🔐 This workflow (`update-local-repo.yml`) is protected
+#     by a SHA256 integrity check script.
+#
+# ❗ Any changes — even whitespace or comments — will
+#     cause the build to FAIL.
+#
+# 🛠 If edits are required, notify the maintainer and
+#     update the hash in:
+#     github-workflow-verification_v1.sh
+#
+# ======================================================
+
+
+
+
 name: Update Local Repository and Run Sonar Scanner
 
 on:
@@ -45,6 +65,17 @@ jobs:
       - name: 🔧 Set up github runner env
         run: |
           bash /usr/local/bin/github-runner_v1.sh
+
+      - name: ✅ GitHub Actions workflow validates
+        run: |
+          bash github-workflow-verification_v1.sh
+
+      - name: ❄️ Extract dependencies
+        run: |
+          bash /usr/local/bin/snowflake-extract-dependencies_v1.sh \
+            --SOURCE_DATABASE=$SOURCE_DATABASE \
+            --SOURCE_SCHEMA=$SOURCE_SCHEMA \
+            --CONNECTION_NAME=$CONNECTION_NAME    
 
       - name: 🧪 Run Sonar Scanner
         run: |
