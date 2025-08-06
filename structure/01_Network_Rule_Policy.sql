@@ -1,7 +1,7 @@
 -- USE ROLE ACCOUNTADMIN; -- Commented out: CICD_ROLE already has necessary privileges
 
 -- Detach the network policy from the account
-ALTER ACCOUNT UNSET NETWORK_POLICY;
+--ALTER ACCOUNT UNSET NETWORK_POLICY;
 
 ALTER ACCOUNT SET NETWORK_POLICY = 'RESTORE_CONNECTIVITY';
 
