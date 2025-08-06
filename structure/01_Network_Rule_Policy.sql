@@ -3,6 +3,8 @@
 -- Detach the network policy from the account
 ALTER ACCOUNT UNSET NETWORK_POLICY;
 
+ALTER ACCOUNT SET NETWORK_POLICY = 'RESTORE_CONNECTIVITY';
+
 
 -- Recreate the network rule
 CREATE OR REPLACE NETWORK RULE ABC_allow_access_rule
