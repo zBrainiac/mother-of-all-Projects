@@ -3,6 +3,14 @@
 -- Detach the network policy from the account
 ALTER ACCOUNT UNSET NETWORK_POLICY;
 
+
+-- Recreate the network rule
+CREATE OR REPLACE NETWORK RULE ABC_allow_access_rule
+  MODE = ingress
+  TYPE = ipv4
+  VALUE_LIST = ('168.198.1.1', '57.133.204.194')
+  COMMENT = 'Internal Private IP Ranges';
+
 -- Drop the network policy that uses the rule
 DROP NETWORK POLICY IF EXISTS ABC_corp_network_policy;
 
