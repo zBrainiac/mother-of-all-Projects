@@ -27,12 +27,12 @@ CREATE OR REPLACE NETWORK RULE ABC_allow_access_rule
   COMMENT = 'Internal Private IP Ranges';
 
 -- First, create the new policy (if it doesn't exist)
-CREATE NETWORK POLICY IF NOT EXISTS ABC_corp_network_policy
-  ALLOWED_IP_LIST = ('0.0.0.0/0')  -- or your specific IP ranges
-  COMMENT = 'Updated corporate network policy';
+-- CREATE NETWORK POLICY IF NOT EXISTS ABC_corp_network_policy
+--  ALLOWED_IP_LIST = ('0.0.0.0/0')  -- or your specific IP ranges
+--  COMMENT = 'Updated corporate network policy';
 
 -- Set the new policy immediately
-ALTER ACCOUNT SET NETWORK_POLICY = 'ABC_corp_network_policy';
+-- ALTER ACCOUNT SET NETWORK_POLICY = 'ABC_corp_network_policy';
 
 -- Now we can safely drop any old policies
 -- (This step might not be needed if we're replacing)
