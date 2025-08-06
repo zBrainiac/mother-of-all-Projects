@@ -3,13 +3,13 @@
 [![Update Local Repository and Run Sonar Scanner](https://github.com/zBrainiac/mother-of-all-Projects/actions/workflows/update-local-repo.yml/badge.svg)](https://github.com/zBrainiac/mother-of-all-Projects/actions/workflows/update-local-repo.yml)
 
 
-# 🧠 Mother of All Projects
+# Mother of All Projects
 
 **A showcase of a fully automated DevOps pipeline for code quality validation using SonarQube and custom rule enhancements.**
 
 ---
 
-## 🔍 Overview
+## Overview
 
 This repository demonstrates a comprehensive DevOps setup that automates code quality reviews using **SonarQube**, with a special focus on:
 
@@ -28,7 +28,7 @@ It is intended as a **reference architecture** for teams looking to implement ad
 
 ---
 
-## 🧱 Architecture
+## Architecture
 
 This project is split into **two repositories**:
 
@@ -45,7 +45,7 @@ This project is split into **two repositories**:
 
 ---
 
-## 🚀 Features
+## Features
 
 - ✅ GitHub Actions integration with custom self-hosted runners
 - ✅ Automated SonarQube analysis on every push and pull request
@@ -54,25 +54,3 @@ This project is split into **two repositories**:
 - ✅ Local infrastructure for offline testing
 
 ---
-
-## 🧰 Requirements
-
-- Docker + Docker Compose
-- GitHub Personal Access Token (for self-hosted runners)
-- GitHub repository with Actions enabled
-
----
-
-## 📦 Getting Started
-
-1. Clone the infrastructure repo and spin up the environment:
-   ```bash
-   git clone https://github.com/zBrainiac/sql_quality_check.git
-   sql_quality_check
-   start your local docker enviornment 
-   ./start.sh
-
-2. download and start editing SQL in mother-of-all-Projects push to a new repo:
-   ```bash
-   git clone https://github.com/zBrainiac/mother-of-all-Projects.git
-   cd mother-of-all-Projects
