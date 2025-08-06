@@ -26,13 +26,17 @@ CREATE OR REPLACE NETWORK RULE ABC_allow_access_rule
   VALUE_LIST = ('168.198.1.1', '57.133.204.194')
   COMMENT = 'Internal Private IP Ranges';
 
--- Recreate the network policy
-CREATE OR REPLACE NETWORK POLICY ABC_corp_network_policy
-  ALLOWED_NETWORK_RULE_LIST = ('ABC_allow_access_rule')
-  COMMENT = 'Corporate network policy';
+-- First, create the new policy (if it doesn't exist)
+CREATE NETWORK POLICY IF NOT EXISTS ABC_corp_network_policy
+  ALLOWED_IP_LIST = ('0.0.0.0/0')  -- or your specific IP ranges
+  COMMENT = 'Updated corporate network policy';
 
--- Reassign the policy to the account
-ALTER ACCOUNT SET NETWORK_POLICY = ABC_corp_network_policy;
+-- Set the new policy immediately
+ALTER ACCOUNT SET NETWORK_POLICY = 'ABC_corp_network_policy';
+
+-- Now we can safely drop any old policies
+-- (This step might not be needed if we're replacing)
+
 
 -- Confirm
 SHOW NETWORK POLICIES;
