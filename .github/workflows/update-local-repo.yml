@@ -3,15 +3,16 @@
 # ======================================================
 # 🚨 DO NOT MODIFY THIS FILE 🚨
 #
-# 🔐 This workflow (`update-local-repo.yml`) is protected
-#     by a SHA256 integrity check script.
+# This workflow (`update-local-repo.yml`) is protected
+# by a SHA256 integrity check script.
 #
-# ❗ Any changes — even whitespace or comments — will
-#     cause the build to FAIL.
+# Any changes — even whitespace or comments — will
+# cause the build to FAIL.
 #
-# 🛠 If edits are required, notify the maintainer and
-#     update the hash in:
-#     github-workflow-verification_v1.sh
+# If edits are required, notify the maintainer and
+# update the hash in: github-workflow-verification_v1.sh
+#
+# shasum -a 256 .github/workflows/update-local-repo.yml
 #
 # ======================================================
 
@@ -40,7 +41,7 @@ jobs:
       CLONE_DATABASE: DATAOPS
       CLONE_SCHEMA: IOT_CLONE
       SNOW_CONFIG_B64: ${{ secrets.SNOW_CONFIG_B64 }}
-      SNOW_KEY_B64: ${{ secrets.SNOW_KEY_B64 }}
+      CONNECTION_NAME: ${{ secrets.SNOW_CONFIG_B64 }}
 
     steps:
       - name: 🔧 Set up dynamic base directories
