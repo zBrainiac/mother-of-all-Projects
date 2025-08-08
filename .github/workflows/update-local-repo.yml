@@ -41,7 +41,7 @@ jobs:
       CLONE_DATABASE: DATAOPS
       CLONE_SCHEMA: IOT_CLONE
       SNOW_CONFIG_B64: ${{ secrets.SNOW_CONFIG_B64 }}
-      CONNECTION_NAME: ${{ secrets.SNOW_CONFIG_B64 }}
+      CONNECTION_NAME: ${{ secrets.SNOW_CONNECTION_NAME }}
 
     steps:
       - name: 🔧 Set up dynamic base directories
