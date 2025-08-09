@@ -37,7 +37,7 @@ jobs:
       SONAR_BRANCH_NAME: ${{ github.ref_name }}
       SONAR_HOST: http://sonarqube:9000
       SOURCE_DATABASE: DATAOPS
-      SOURCE_SCHEMA: IOT_DOMAIN_v001
+      SOURCE_SCHEMA: IOT_RAW_v001
       CLONE_DATABASE: DATAOPS
       CLONE_SCHEMA: IOT_CLONE
       SNOW_CONFIG_B64: ${{ secrets.SNOW_CONFIG_B64 }}
