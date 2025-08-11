@@ -1,11 +1,11 @@
 -- ✅ VALID: Grant to specific role
-GRANT SELECT ON TABLE RAW_IOT TO ROLE dk_aviation_audit;
+GRANT SELECT ON TABLE IOT_RAW TO ROLE dk_aviation_audit;
 
 -- ✅ VALID: Grant to a specific role with uppercase
 GRANT USAGE ON DATABASE DataOps TO ROLE accountadmin;
 
 -- ❌ INVALID: Grant to PUBLIC directly
-GRANT SELECT ON TABLE RAW_IOT TO ROLE PUBLIC;
+GRANT SELECT ON TABLE IOT_RAW TO ROLE PUBLIC;
 
 -- ❌ INVALID: Grant usage on schema to PUBLIC
 GRANT USAGE ON SCHEMA IOT_RAW_v001 TO PUBLIC;

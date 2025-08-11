@@ -1,5 +1,5 @@
 -- =========================================
--- 1. Basic View: Selects all data from RAW_IOT
+-- 1. Basic View: Selects all data from IOT_RAW
 -- =========================================
 CREATE OR REPLACE VIEW ABC_IOT_ALL AS
 SELECT
@@ -8,7 +8,7 @@ SELECT
   ,SENSOR_1
   ,SENSOR_2
   ,SENSOR_3
-FROM RAW_IOT;
+FROM IOT_RAW;
 
 -- =========================================
 -- 2. Filtered View: Only active sensors
@@ -20,7 +20,7 @@ SELECT
   ,SENSOR_1
   ,SENSOR_2
   ,SENSOR_3
-FROM RAW_IOT
+FROM IOT_RAW
 WHERE SENSOR_ID = '12';
 
 -- =========================================
@@ -28,7 +28,7 @@ WHERE SENSOR_ID = '12';
 -- =========================================
 CREATE OR REPLACE VIEW ABC_IOT_ID_102_AVG AS
 SELECT AVG(SENSOR_0) as avg_102
-FROM RAW_IOT
+FROM IOT_RAW
 WHERE SENSOR_ID = 102;
 
 -- =========================================
